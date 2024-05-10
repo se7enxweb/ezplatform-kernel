@@ -218,46 +218,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
             return new Criterion\ObjectStateId($value->limitationValues[0]);
         }
 
-        $groupedLimitationValues = $this->groupLimitationValues($value->limitationValues);
-
-        if (count($groupedLimitationValues) === 1) {
-            // one group, several limitation values: IN operation
-            return new Criterion\ObjectStateId($groupedLimitationValues[0]);
-        }
-
-        // limitations from different groups require logical AND between them
-        $criterions = [];
-        foreach ($groupedLimitationValues as $limitationGroup) {
-            $criterions[] = new Criterion\ObjectStateId($limitationGroup);
-        }
-
-        return new Criterion\LogicalAnd($criterions);
-    }
-
-    /**
-     * Groups limitation values by the State Group.
-     *
-     * @param string[] $limitationValues
-     *
-     * @return int[][]
-     */
-    private function groupLimitationValues(array $limitationValues)
-    {
-        $objectStateHandler = $this->persistence->objectStateHandler();
-        $stateGroups = $objectStateHandler->loadAllGroups();
-        $groupedLimitationValues = [];
-        foreach ($stateGroups as $stateGroup) {
-            $states = $objectStateHandler->loadObjectStates($stateGroup->id);
-            $stateIds = array_map(static function ($state) {
-                return $state->id;
-            }, $states);
-            $limitationValuesGroup = array_intersect($stateIds, $limitationValues);
-            if (!empty($limitationValuesGroup)) {
-                $groupedLimitationValues[] = array_values($limitationValuesGroup);
-            }
-        }
-
-        return $groupedLimitationValues;
+        return new Criterion\ObjectStateId($value->limitationValues);
     }
 
     /**
