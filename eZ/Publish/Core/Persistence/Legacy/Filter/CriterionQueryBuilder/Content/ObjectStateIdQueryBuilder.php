@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
-use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Connection;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ObjectStateId;
 use eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
@@ -25,40 +25,31 @@ final class ObjectStateIdQueryBuilder implements CriterionQueryBuilder
         return $criterion instanceof ObjectStateId;
     }
 
+
+    /**
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion\ObjectStateId $criterion
+     */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
         $value = (array)$criterion->value;
 
-        $conditions = [];
-        foreach ($value as $objectStateId) {
-            $conditions[] = $queryBuilder->expr()->eq(
-                'osl.contentobject_state_id',
-                $queryBuilder->createNamedParameter($objectStateId, ParameterType::INTEGER)
-            );
-        }
-
-        var_dump(
-            __METHOD__,
-            $value,
-            (string) $queryBuilder->expr()->and(
-                $queryBuilder->expr()->eq('content.id', 'osl.contentobject_id'),
-                $queryBuilder->expr()->and(...$conditions),
-            )
-        );
-
-        /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion\ObjectStateId $criterion */
         $queryBuilder
-            ->join(
+            ->joinOnce(
                 'content',
                 Gateway::OBJECT_STATE_LINK_TABLE,
                 'osl',
                 (string) $queryBuilder->expr()->and(
                     $queryBuilder->expr()->eq('content.id', 'osl.contentobject_id'),
-                    $queryBuilder->expr()->or(...$conditions),
-                ),
+                    $queryBuilder->expr()->in(
+                        'osl.contentobject_state_id',
+                        $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                    )
+                )
             );
+
+
 
 
         return $queryBuilder->expr()->isNotNull(
