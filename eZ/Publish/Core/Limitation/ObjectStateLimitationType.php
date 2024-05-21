@@ -213,12 +213,10 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
             throw new RuntimeException('$value->limitationValues is empty');
         }
 
-        if (count($value->limitationValues) === 1) {
+        if (!isset($value->limitationValues[1])) {
             // 1 limitation value: EQ operation
             return new Criterion\ObjectStateId($value->limitationValues[0]);
         }
-
-        return new Criterion\ObjectStateId($value->limitationValues);
 
         $groupedLimitationValues = $this->groupLimitationValues($value->limitationValues);
 

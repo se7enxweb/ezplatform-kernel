@@ -9,6 +9,10 @@ services:
     eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\:
         resource: '../../../../Persistence/Legacy/Filter/CriterionQueryBuilder/*'
 
+#    eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\ObjectStateIdQueryBuilder:
+#        arguments:
+#            $objectStateHandler: '@ezpublish.spi.persistence.object_state_handler'
+
     eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\:
         resource: '../../../../Persistence/Legacy/Filter/SortClauseQueryBuilder/*'
 
