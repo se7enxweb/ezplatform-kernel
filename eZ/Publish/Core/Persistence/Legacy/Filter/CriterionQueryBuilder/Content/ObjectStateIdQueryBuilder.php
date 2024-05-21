@@ -25,35 +25,33 @@ final class ObjectStateIdQueryBuilder implements CriterionQueryBuilder
         return $criterion instanceof ObjectStateId;
     }
 
-
-    /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion\ObjectStateId $criterion
-     */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
         $value = (array)$criterion->value;
+        $tableAlias = uniqid('osl_');
 
+        /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion\ObjectStateId $criterion */
         $queryBuilder
-            ->joinOnce(
+            ->leftJoinOnce(
                 'content',
                 Gateway::OBJECT_STATE_LINK_TABLE,
-                'osl',
+                $tableAlias,
                 (string) $queryBuilder->expr()->and(
-                    $queryBuilder->expr()->eq('content.id', 'osl.contentobject_id'),
+                    $queryBuilder->expr()->eq(
+                        'content.id',
+                        $tableAlias . '.contentobject_id'
+                    ),
                     $queryBuilder->expr()->in(
-                        'osl.contentobject_state_id',
+                        $tableAlias . '.contentobject_state_id',
                         $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
                     )
                 )
             );
 
-
-
-
         return $queryBuilder->expr()->isNotNull(
-            'osl.contentobject_state_id',
+            $tableAlias . '.contentobject_state_id',
         );
     }
 }

@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\ObjectStateService;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\API\Repository\Values\Filter\Filter;
 use eZ\Publish\API\Repository\Values\ObjectState\ObjectState;
 use eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup;
 use eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation;
@@ -196,6 +197,60 @@ class ObjectStateLimitationTest extends BaseLimitationTest
         $searchResultsAfter = $repository->getSearchService()->findContent($query);
 
         self::assertEquals($searchResultsBefore->totalCount - 1, $searchResultsAfter->totalCount);
+    }
+
+    /**
+     * Checks if the Filtering API results are correctly filtered when using ObjectStateLimitation
+     * with limitation values from two different StateGroups.
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\ForbiddenException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     */
+    public function testObjectStateLimitationFilter(): void
+    {
+        $repository = $this->getRepository();
+        $permissionResolver = $repository->getPermissionResolver();
+
+        $objectStateGroup = $this->createObjectStateGroup();
+        $objectState = $this->createObjectState($objectStateGroup);
+
+        $user = $this->createUserWithObjectStateLimitationOnContentRead(
+            [
+                self::OBJECT_STATE_NOT_LOCKED_STATE_ID,
+                $objectState->id,
+            ]
+        );
+        $adminUser = $permissionResolver->getCurrentUserReference();
+
+        $wikiPage = $this->createWikiPage();
+
+        $this->loginAsUser($user);
+
+        $query = new Filter();
+        $query->withLimit(50);
+        $query->withCriterion(new Criterion\MatchAll());
+
+        $searchResultsBefore = $repository->getContentService()->find($query);
+
+        $this->loginAsUser($adminUser);
+
+        //change the Object State to the one that doesn't match the Limitation
+        $stateService = $repository->getObjectStateService();
+        $stateService->setContentState(
+            $wikiPage->contentInfo,
+            $stateService->loadObjectStateGroup(2),
+            $stateService->loadObjectState(2)
+        );
+
+        $this->loginAsUser($user);
+
+        $searchResultsAfter = $repository->getContentService()->find($query);
+
+        self::assertEquals(
+            $searchResultsBefore->getTotalCount() - 1,
+            $searchResultsAfter->getTotalCount()
+        );
     }
 
     /**
