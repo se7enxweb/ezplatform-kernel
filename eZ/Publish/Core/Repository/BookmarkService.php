@@ -13,8 +13,11 @@ use eZ\Publish\API\Repository\BookmarkService as BookmarkServiceInterface;
 use eZ\Publish\API\Repository\Repository as RepositoryInterface;
 use eZ\Publish\API\Repository\Values\Bookmark\BookmarkList;
 use eZ\Publish\API\Repository\Values\Content\Location;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use eZ\Publish\API\Repository\Values\Filter\Filter;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\SPI\Persistence\Bookmark\Bookmark;
 use eZ\Publish\SPI\Persistence\Bookmark\CreateStruct;
 use eZ\Publish\SPI\Persistence\Bookmark\Handler as BookmarkHandler;
 
@@ -97,15 +100,21 @@ class BookmarkService implements BookmarkServiceInterface
     {
         $currentUserId = $this->getCurrentUserId();
 
-        $list = new BookmarkList();
-        $list->totalCount = $this->bookmarkHandler->countUserBookmarks($currentUserId);
-        if ($list->totalCount > 0) {
-            $bookmarks = $this->bookmarkHandler->loadUserBookmarks($currentUserId, $offset, $limit);
+        $filter = new Filter();
+        try {
+            $filter
+                ->withCriterion(new Criterion\Bookmark($currentUserId))
+                ->withSortClause(new SortClause\BookmarkId(Query::SORT_DESC))
+                ->sliceBy($limit, $offset);
 
-            $list->items = array_map(function (Bookmark $bookmark) {
-                return $this->repository->getLocationService()->loadLocation($bookmark->locationId);
-            }, $bookmarks);
+            $result = $this->repository->getlocationService()->find($filter, []);
+        } catch (\eZ\Publish\API\Repository\Exceptions\BadStateException $e) {
+            return new BookmarkList();
         }
+
+        $list = new BookmarkList();
+        $list->totalCount = $result->totalCount;
+        $list->items = $result->locations;
 
         return $list;
     }

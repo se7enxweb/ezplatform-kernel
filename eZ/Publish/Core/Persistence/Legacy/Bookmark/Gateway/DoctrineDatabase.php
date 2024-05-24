@@ -101,6 +101,8 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
+     * @deprecated Please use LocationService::find() and Criterion\Bookmark instead.
+     *
      * {@inheritdoc}
      */
     public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
@@ -123,6 +125,8 @@ class DoctrineDatabase extends Gateway
     }
 
     /**
+     * @deprecated Please use LocationService::count() and Criterion\Bookmark instead.
+     *
      * {@inheritdoc}
      */
     public function countUserBookmarks(int $userId): int

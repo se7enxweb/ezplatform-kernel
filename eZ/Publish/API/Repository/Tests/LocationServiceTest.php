@@ -1965,6 +1965,7 @@ class LocationServiceTest extends BaseTest
 
         $mediaLocationId = $this->generateId('location', 43);
         $demoDesignLocationId = $this->generateId('location', 56);
+        $contactUsLocationId = $this->generateId('location', 60);
 
         /* BEGIN: Use Case */
         $locationService = $repository->getLocationService();
@@ -1972,6 +1973,7 @@ class LocationServiceTest extends BaseTest
 
         $mediaLocation = $locationService->loadLocation($mediaLocationId);
         $demoDesignLocation = $locationService->loadLocation($demoDesignLocationId);
+        $contactUsLocation = $locationService->loadLocation($contactUsLocationId);
 
         // Bookmark locations
         $bookmarkService->createBookmark($mediaLocation);
@@ -1980,13 +1982,24 @@ class LocationServiceTest extends BaseTest
         $beforeSwap = $bookmarkService->loadBookmarks();
 
         // Swaps the content referred to by the locations
-        $locationService->swapLocation($mediaLocation, $demoDesignLocation);
+        $locationService->swapLocation($demoDesignLocation, $contactUsLocation);
 
         $afterSwap = $bookmarkService->loadBookmarks();
         /* END: Use Case */
 
-        $this->assertEquals($beforeSwap->items[0]->id, $afterSwap->items[1]->id);
-        $this->assertEquals($beforeSwap->items[1]->id, $afterSwap->items[0]->id);
+        $expectedIdsAfter = array_map(static function (Location $item) use ($demoDesignLocationId, $contactUsLocationId) {
+            if ($item->id === $demoDesignLocationId) {
+                return $contactUsLocationId;
+            }
+
+            return $item->id;
+        }, $beforeSwap->items);
+
+        $actualIdsAfter = array_map(static function (Location $item) use ($demoDesignLocationId, $contactUsLocationId) {
+            return $item->id;
+        }, $afterSwap->items);
+
+        $this->assertEquals($expectedIdsAfter, $actualIdsAfter);
     }
 
     /**

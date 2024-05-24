@@ -56,6 +56,15 @@ class ExceptionConversion extends Gateway
         }
     }
 
+    /**
+     * @deprecated Please use LocationService::find() and Criterion\Bookmark instead.
+     *
+     * @param int $userId
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return array
+     */
     public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
     {
         try {
@@ -65,6 +74,13 @@ class ExceptionConversion extends Gateway
         }
     }
 
+    /**
+     * @deprecated Please use LocationService::count() and Criterion\Bookmark instead.
+     *
+     * @param int $userId
+     *
+     * @return int
+     */
     public function countUserBookmarks(int $userId): int
     {
         try {

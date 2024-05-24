@@ -44,6 +44,8 @@ abstract class Gateway
     /**
      * Load data for all bookmarks owned by given $userId.
      *
+     * @deprecated Please use LocationService::find() and Criterion\Bookmark instead.
+     *
      * @param int $userId ID of user
      * @param int $offset Offset to start listing from, 0 by default
      * @param int $limit Limit for the listing. -1 by default (no limit)
@@ -54,6 +56,8 @@ abstract class Gateway
 
     /**
      * Count bookmarks owned by given $userId.
+     *
+     * @deprecated Please use LocationService::count() and Criterion\Bookmark instead.
      *
      * @param int $userId ID of user
      *

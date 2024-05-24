@@ -12,6 +12,7 @@ use Exception;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
+use eZ\Publish\API\Repository\Values\Content\LocationList;
 use eZ\Publish\Core\Repository\BookmarkService;
 use eZ\Publish\Core\Repository\Tests\Service\Mock\Base as BaseServiceMockTest;
 use eZ\Publish\Core\Repository\Values\Content\Location;
@@ -219,28 +220,13 @@ class BookmarkTest extends BaseServiceMockTest
         $expectedItems = array_map(function ($locationId) {
             return $this->createLocation($locationId);
         }, range(1, $expectedTotalCount));
-
-        $this->bookmarkHandler
-            ->expects($this->once())
-            ->method('countUserBookmarks')
-            ->with(self::CURRENT_USER_ID)
-            ->willReturn($expectedTotalCount);
-
-        $this->bookmarkHandler
-            ->expects($this->once())
-            ->method('loadUserBookmarks')
-            ->with(self::CURRENT_USER_ID, $offset, $limit)
-            ->willReturn(array_map(static function ($locationId) {
-                return new Bookmark(['locationId' => $locationId]);
-            }, range(1, $expectedTotalCount)));
+        $locationList = new LocationList(['totalCount' => $expectedTotalCount, 'locations' => $expectedItems]);
 
         $locationServiceMock = $this->createMock(LocationService::class);
         $locationServiceMock
-            ->expects($this->exactly($expectedTotalCount))
-            ->method('loadLocation')
-            ->willReturnCallback(function ($locationId) {
-                return $this->createLocation($locationId);
-            });
+            ->expects($this->once())
+            ->method('find')
+            ->willReturn($locationList);
 
         $repository = $this->getRepositoryMock();
         $repository
@@ -252,27 +238,6 @@ class BookmarkTest extends BaseServiceMockTest
 
         $this->assertEquals($expectedTotalCount, $bookmarks->totalCount);
         $this->assertEquals($expectedItems, $bookmarks->items);
-    }
-
-    /**
-     * @covers \eZ\Publish\Core\Repository\BookmarkService::loadBookmarks
-     */
-    public function testLoadBookmarksEmptyList()
-    {
-        $this->bookmarkHandler
-            ->expects($this->once())
-            ->method('countUserBookmarks')
-            ->with(self::CURRENT_USER_ID)
-            ->willReturn(0);
-
-        $this->bookmarkHandler
-            ->expects($this->never())
-            ->method('loadUserBookmarks');
-
-        $bookmarks = $this->createBookmarkService()->loadBookmarks(0, 10);
-
-        $this->assertEquals(0, $bookmarks->totalCount);
-        $this->assertEmpty($bookmarks->items);
     }
 
     /**

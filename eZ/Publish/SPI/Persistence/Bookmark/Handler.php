@@ -41,6 +41,8 @@ interface Handler
     /**
      * Loads bookmarks owned by user.
      *
+     * @deprecated Please use LocationService::find() and Criterion\Bookmark instead.
+     *
      * @param int $userId
      * @param int $offset the start offset for paging
      * @param int $limit the number of bookmarked locations returned
@@ -51,6 +53,8 @@ interface Handler
 
     /**
      * Count bookmarks owned by user.
+     *
+     * @deprecated Please use LocationService::count() and Criterion\Bookmark instead.
      *
      * @param int $userId
      *
