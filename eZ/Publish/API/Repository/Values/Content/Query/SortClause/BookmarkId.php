@@ -13,7 +13,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
 use eZ\Publish\SPI\Repository\Values\Filter\FilteringSortClause;
 
 /**
- * Sets sort direction on the bookmark id for a location query containing a Bookmark criterion.
+ * Sets sort direction on the Bookmark ID for a location query containing a IsBookmarked criterion.
  */
 class BookmarkId extends SortClause implements FilteringSortClause
 {

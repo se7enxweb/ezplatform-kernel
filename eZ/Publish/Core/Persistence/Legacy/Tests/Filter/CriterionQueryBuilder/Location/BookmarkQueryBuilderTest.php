@@ -21,7 +21,7 @@ final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTes
     public function getFilteringCriteriaQueryData(): iterable
     {
         yield 'Bookmarks locations for user_id=14' => [
-            new Criterion\Bookmark(14),
+            new Criterion\IsBookmarked(14),
             'bookmark.user_id = :dcValue1',
             ['dcValue1' => 14],
         ];
@@ -29,8 +29,8 @@ final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTes
         yield 'Bookmarks locations for user_id=14 OR user_id=7' => [
             new Criterion\LogicalOr(
                 [
-                    new Criterion\Bookmark(14),
-                    new Criterion\Bookmark(7),
+                    new Criterion\IsBookmarked(14),
+                    new Criterion\IsBookmarked(7),
                 ]
             ),
             '(bookmark.user_id = :dcValue1) OR (bookmark.user_id = :dcValue2)',

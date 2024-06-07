@@ -41,7 +41,7 @@ interface Handler
     /**
      * Loads bookmarks owned by user.
      *
-     * @deprecated Please use LocationService::find() and Criterion\Bookmark instead.
+     * @deprecated Please use LocationService::find() and Criterion\IsBookmarked instead.
      *
      * @param int $userId
      * @param int $offset the start offset for paging
@@ -54,7 +54,7 @@ interface Handler
     /**
      * Count bookmarks owned by user.
      *
-     * @deprecated Please use LocationService::count() and Criterion\Bookmark instead.
+     * @deprecated Please use LocationService::count() and Criterion\IsBookmarked instead.
      *
      * @param int $userId
      *

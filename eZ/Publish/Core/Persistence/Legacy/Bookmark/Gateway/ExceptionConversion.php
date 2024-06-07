@@ -57,7 +57,7 @@ class ExceptionConversion extends Gateway
     }
 
     /**
-     * @deprecated Please use LocationService::find() and Criterion\Bookmark instead.
+     * @deprecated Please use LocationService::find() and Criterion\IsBookmarked instead.
      *
      * @param int $userId
      * @param int $offset
@@ -75,7 +75,7 @@ class ExceptionConversion extends Gateway
     }
 
     /**
-     * @deprecated Please use LocationService::count() and Criterion\Bookmark instead.
+     * @deprecated Please use LocationService::count() and Criterion\IsBookmarked instead.
      *
      * @param int $userId
      *

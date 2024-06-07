@@ -85,7 +85,7 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
     }
 
     /**
-     * @deprecated Please use LocationService::find() and Criterion\Bookmark instead.
+     * @deprecated Please use LocationService::find() and Criterion\IsBookmarked instead.
      *
      * {@inheritdoc}
      */
@@ -101,7 +101,7 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
     }
 
     /**
-     * @deprecated Please use LocationService::count() and Criterion\Bookmark instead.
+     * @deprecated Please use LocationService::count() and Criterion\IsBookmarked instead.
      *
      * {@inheritdoc}
      */

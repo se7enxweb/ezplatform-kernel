@@ -103,7 +103,7 @@ class BookmarkService implements BookmarkServiceInterface
         $filter = new Filter();
         try {
             $filter
-                ->withCriterion(new Criterion\Bookmark($currentUserId))
+                ->withCriterion(new Criterion\IsBookmarked($currentUserId))
                 ->withSortClause(new SortClause\BookmarkId(Query::SORT_DESC))
                 ->sliceBy($limit, $offset);
 

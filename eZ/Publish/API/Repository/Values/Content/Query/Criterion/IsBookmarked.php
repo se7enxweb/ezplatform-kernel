@@ -19,10 +19,10 @@ use eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion;
  * Supported operators:
  * - EQ: matches against a unique user id
  */
-class Bookmark extends Criterion implements FilteringCriterion
+class IsBookmarked extends Criterion implements FilteringCriterion
 {
     /**
-     * Creates a new Bookmark criterion.
+     * Creates a new IsBookmarked criterion.
      *
      * @param int $value UserID for which bookmarked locations must be matched against
      *

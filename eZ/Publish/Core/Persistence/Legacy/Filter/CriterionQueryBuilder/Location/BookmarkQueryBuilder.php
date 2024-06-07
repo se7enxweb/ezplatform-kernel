@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
 use Doctrine\DBAL\ParameterType;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Bookmark;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\IsBookmarked;
 use eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion;
@@ -21,7 +21,7 @@ final class BookmarkQueryBuilder extends BaseLocationCriterionQueryBuilder
 {
     public function accepts(FilteringCriterion $criterion): bool
     {
-        return $criterion instanceof Bookmark;
+        return $criterion instanceof IsBookmarked;
     }
 
     public function buildQueryConstraint(
