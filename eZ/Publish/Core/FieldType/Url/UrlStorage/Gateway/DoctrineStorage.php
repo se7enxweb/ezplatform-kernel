@@ -132,7 +132,7 @@ class DoctrineStorage extends Gateway
     /**
      * Return a list of URLs used by the given field and version.
      *
-     * @return bool[] An array of URLs, with urls as keys
+     * array<string, boolean> An array of URLs, with urls as keys
      */
     public function getUrlsFromUrlLink(int $fieldId, int $versionNo): array
     {
@@ -140,7 +140,7 @@ class DoctrineStorage extends Gateway
         $selectQuery
             ->select($this->connection->quoteIdentifier('url.url'))
             ->from($this->connection->quoteIdentifier(self::URL_TABLE), 'url')
-            ->leftJoin(
+            ->innerJoin(
                 'url',
                 $this->connection->quoteIdentifier(self::URL_LINK_TABLE),
                 'link',
@@ -162,9 +162,9 @@ class DoctrineStorage extends Gateway
             ->setParameter(':contentobject_attribute_version', $versionNo, ParameterType::INTEGER);
 
         $statement = $selectQuery->execute();
-        $rows = $statement->fetchAllAssociativeIndexed();
+        $rows = $statement->fetchFirstColumn();
         $result = [];
-        foreach ($rows as $url => $item) {
+        foreach ($rows as $url) {
             $result[$url] = true;
         }
 
