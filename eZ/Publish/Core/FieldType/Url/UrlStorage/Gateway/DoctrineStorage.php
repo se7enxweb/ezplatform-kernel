@@ -132,7 +132,7 @@ class DoctrineStorage extends Gateway
     /**
      * Return a list of URLs used by the given field and version.
      *
-     * array<string, boolean> An array of URLs, with urls as keys
+     * string[] An array of URLs
      */
     public function getUrlsFromUrlLink(int $fieldId, int $versionNo): array
     {
@@ -163,12 +163,8 @@ class DoctrineStorage extends Gateway
 
         $statement = $selectQuery->execute();
         $rows = $statement->fetchFirstColumn();
-        $result = [];
-        foreach ($rows as $url) {
-            $result[$url] = true;
-        }
 
-        return $result;
+        return $rows;
     }
 
     /**

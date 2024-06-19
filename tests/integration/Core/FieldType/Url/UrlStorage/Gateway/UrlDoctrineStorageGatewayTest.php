@@ -31,9 +31,9 @@ final class UrlDoctrineStorageGatewayTest extends BaseCoreFieldTypeIntegrationTe
         $gateway->linkUrl($urlIds[1], 12, 2);
         $gateway->linkUrl($urlIds[2], 14, 1);
 
-        self::assertEquals(['https://ibexa.co/example1' => true, 'https://ibexa.co/example2' => true], $gateway->getUrlsFromUrlLink(10, 1), 'Did not get expected urlS for field 10');
-        self::assertEquals(['https://ibexa.co/example2' => true], $gateway->getUrlsFromUrlLink(12, 2), 'Did not get expected url for field 12');
-        self::assertEquals(['https://ibexa.co/example3' => true], $gateway->getUrlsFromUrlLink(14, 1), 'Did not get expected url for field 14');
+        self::assertEquals(['https://ibexa.co/example1', 'https://ibexa.co/example2'], $gateway->getUrlsFromUrlLink(10, 1), 'Did not get expected urls for field 10');
+        self::assertEquals(['https://ibexa.co/example2'], $gateway->getUrlsFromUrlLink(12, 2), 'Did not get expected url for field 12');
+        self::assertEquals(['https://ibexa.co/example3'], $gateway->getUrlsFromUrlLink(14, 1), 'Did not get expected url for field 14');
         self::assertEquals([], $gateway->getUrlsFromUrlLink(15, 1), 'Expected no urls for field 15');
     }
 
