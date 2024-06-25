@@ -254,9 +254,6 @@ class BookmarkTest extends BaseServiceMockTest
         $this->assertFalse($this->createBookmarkService()->isBookmarked($this->createLocation(self::LOCATION_ID)));
     }
 
-    /**
-     * @covers \eZ\Publish\Core\Repository\BookmarkService::isBookmarked
-     */
     public function testLocationShouldBeBookmarked()
     {
         $this->bookmarkHandler
