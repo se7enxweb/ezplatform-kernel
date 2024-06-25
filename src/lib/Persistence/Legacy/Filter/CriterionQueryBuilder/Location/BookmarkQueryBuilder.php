@@ -6,13 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
+namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
 use Doctrine\DBAL\ParameterType;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\IsBookmarked;
 use eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\BaseLocationCriterionQueryBuilder;
 use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsBookmarked;
 
 /**
  * @internal for internal use by Repository Filtering

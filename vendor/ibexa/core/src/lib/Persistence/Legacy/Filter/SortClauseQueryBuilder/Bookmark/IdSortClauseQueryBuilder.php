@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Bookmark;
+namespace Ibexa\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Bookmark;
 
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause\BookmarkId;
 use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;

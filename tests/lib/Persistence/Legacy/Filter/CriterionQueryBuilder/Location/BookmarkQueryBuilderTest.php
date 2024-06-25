@@ -6,11 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Filter\CriterionQueryBuilder\Location;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\BookmarkQueryBuilder;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion as EzCriterion;
 use eZ\Publish\Core\Persistence\Legacy\Tests\Filter\BaseCriterionVisitorQueryBuilderTestCase;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\BookmarkQueryBuilder;
 
 final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
@@ -23,7 +24,7 @@ final class BookmarkQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTes
         ];
 
         yield 'Bookmarks locations for user_id=14 OR user_id=7' => [
-            new Criterion\LogicalOr(
+            new EzCriterion\LogicalOr(
                 [
                     new Criterion\IsBookmarked(14),
                     new Criterion\IsBookmarked(7),
