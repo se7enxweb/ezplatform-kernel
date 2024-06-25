@@ -17,11 +17,6 @@ use eZ\Publish\SPI\Repository\Values\Filter\FilteringSortClause;
  */
 class BookmarkId extends SortClause implements FilteringSortClause
 {
-    /**
-     * Constructs a new BookmarkId SortClause.
-     *
-     * @param string $sortDirection
-     */
     public function __construct(string $sortDirection = Query::SORT_ASC)
     {
         parent::__construct('id', $sortDirection);
