@@ -21,7 +21,6 @@ use eZ\Publish\SPI\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
-
 class BookmarkService implements BookmarkServiceInterface
 {
     /** @var \eZ\Publish\API\Repository\Repository */
