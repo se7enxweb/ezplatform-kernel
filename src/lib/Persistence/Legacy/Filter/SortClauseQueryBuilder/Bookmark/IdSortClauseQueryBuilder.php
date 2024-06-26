@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Bookmark;
 
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\BookmarkId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\BookmarkId;
 use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use eZ\Publish\SPI\Repository\Values\Filter\FilteringSortClause;
 use eZ\Publish\SPI\Repository\Values\Filter\SortClauseQueryBuilder;
