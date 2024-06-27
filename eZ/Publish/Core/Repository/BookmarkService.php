@@ -10,6 +10,7 @@ namespace eZ\Publish\Core\Repository;
 
 use Exception;
 use eZ\Publish\API\Repository\BookmarkService as BookmarkServiceInterface;
+use eZ\Publish\API\Repository\Exceptions\BadStateException;
 use eZ\Publish\API\Repository\Repository as RepositoryInterface;
 use eZ\Publish\API\Repository\Values\Bookmark\BookmarkList;
 use eZ\Publish\API\Repository\Values\Content\Location;
@@ -108,7 +109,7 @@ class BookmarkService implements BookmarkServiceInterface
                 ->sliceBy($limit, $offset);
 
             $result = $this->repository->getlocationService()->find($filter, []);
-        } catch (\eZ\Publish\API\Repository\Exceptions\BadStateException $e) {
+        } catch (BadStateException $e) {
             return new BookmarkList();
         }
 
