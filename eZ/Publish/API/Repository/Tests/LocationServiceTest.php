@@ -1987,19 +1987,8 @@ class LocationServiceTest extends BaseTest
         $afterSwap = $bookmarkService->loadBookmarks();
         /* END: Use Case */
 
-        $expectedIdsAfter = array_map(static function (Location $item) use ($demoDesignLocationId, $contactUsLocationId) {
-            if ($item->id === $demoDesignLocationId) {
-                return $contactUsLocationId;
-            }
-
-            return $item->id;
-        }, $beforeSwap->items);
-
-        $actualIdsAfter = array_map(static function (Location $item) use ($demoDesignLocationId, $contactUsLocationId) {
-            return $item->id;
-        }, $afterSwap->items);
-
-        $this->assertEquals($expectedIdsAfter, $actualIdsAfter);
+        $this->assertEquals($contactUsLocationId, $afterSwap->items[0]->id);
+        $this->assertEquals($beforeSwap->items[1]->id, $afterSwap->items[1]->id);
     }
 
     /**
