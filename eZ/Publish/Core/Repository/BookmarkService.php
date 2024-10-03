@@ -21,6 +21,8 @@ use eZ\Publish\SPI\Persistence\Bookmark\CreateStruct;
 use eZ\Publish\SPI\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class BookmarkService implements BookmarkServiceInterface
 {
@@ -30,16 +32,16 @@ class BookmarkService implements BookmarkServiceInterface
     /** @var \eZ\Publish\SPI\Persistence\Bookmark\Handler */
     protected $bookmarkHandler;
 
+    private LoggerInterface $logger;
+
     /**
      * BookmarkService constructor.
-     *
-     * @param \eZ\Publish\API\Repository\Repository $repository
-     * @param \eZ\Publish\SPI\Persistence\Bookmark\Handler $bookmarkHandler
      */
-    public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler)
+    public function __construct(RepositoryInterface $repository, BookmarkHandler $bookmarkHandler, LoggerInterface $logger = null)
     {
         $this->repository = $repository;
         $this->bookmarkHandler = $bookmarkHandler;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -110,6 +112,8 @@ class BookmarkService implements BookmarkServiceInterface
 
             $result = $this->repository->getlocationService()->find($filter, []);
         } catch (BadStateException $e) {
+            $this->logger->debug($e);
+
             return new BookmarkList();
         }
 
