@@ -32,7 +32,8 @@ class BookmarkService implements BookmarkServiceInterface
     /** @var \eZ\Publish\SPI\Persistence\Bookmark\Handler */
     protected $bookmarkHandler;
 
-    private LoggerInterface $logger;
+    /** @var \Psr\Log\LoggerInterface */
+    private $logger;
 
     /**
      * BookmarkService constructor.
