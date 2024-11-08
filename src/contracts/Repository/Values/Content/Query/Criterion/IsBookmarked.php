@@ -16,16 +16,15 @@ use eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion;
 /**
  * A criterion that matches locations of bookmarks for a given user id.
  *
- *
  * Supported operators:
  * - EQ: matches against a unique user id
  */
-class IsBookmarked extends Criterion implements FilteringCriterion
+final class IsBookmarked extends Criterion implements FilteringCriterion
 {
     /**
      * Creates a new IsBookmarked criterion.
      *
-     * @param int $value UserID for which bookmarked locations must be matched against
+     * @param int $value user id for which bookmarked locations must be matched against
      *
      * @throws \InvalidArgumentException if a non numeric id is given
      * @throws \InvalidArgumentException if the value type doesn't match the operator

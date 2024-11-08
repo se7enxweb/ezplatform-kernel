@@ -113,7 +113,9 @@ class BookmarkService implements BookmarkServiceInterface
 
             $result = $this->repository->getlocationService()->find($filter, []);
         } catch (BadStateException $e) {
-            $this->logger->debug($e);
+            $this->logger->debug($e, [
+                'exception' => $e,
+            ]);
 
             return new BookmarkList();
         }

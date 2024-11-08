@@ -13,7 +13,7 @@ use eZ\Publish\SPI\Repository\Values\Filter\FilteringSortClause;
 use eZ\Publish\SPI\Repository\Values\Filter\SortClauseQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\BookmarkId;
 
-class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
+final class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
 {
     public function accepts(FilteringSortClause $sortClause): bool
     {

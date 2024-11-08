@@ -224,7 +224,7 @@ class BookmarkTest extends BaseServiceMockTest
 
         $locationServiceMock = $this->createMock(LocationService::class);
         $locationServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->willReturn($locationList);
 
