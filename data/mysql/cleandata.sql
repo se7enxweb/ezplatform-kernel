@@ -99,7 +99,7 @@ VALUES (1,9,1,2,3,1448889046,'Exponential Platform',14,1448889046,'9459d3c29e150
        (1,1,51,2,3,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
 
 INSERT INTO `ezcontentobject_attribute` (`attribute_original_id`, `contentclassattribute_id`, `contentobject_id`, `data_float`, `data_int`, `data_text`, `data_type_string`, `id`, `language_code`, `language_id`, `sort_key_int`, `sort_key_string`, `version`)
-VALUES (0,4,1,NULL,NULL,'Exponential Platform','ezstring',1,'eng-GB',3,0,'ibexa platform',9),
+VALUES (0,4,1,NULL,NULL,'Exponential Platform','ezstring',1,'eng-GB',3,0,'exponential platform',9),
        (0,119,1,NULL,NULL,'<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ez.no/xmlns/ezpublish/docbook/xhtml" xmlns:ezcustom="http://ez.no/xmlns/ezpublish/docbook/custom" version="5.0-variant ezpublish-1.0"><para><emphasis role="strong">You are now ready to start your project.</emphasis></para></section>','ezrichtext',2,'eng-GB',3,0,'',9),
        (0,7,4,NULL,NULL,'Main group','ezstring',7,'eng-GB',3,0,'',1),
        (0,6,4,NULL,NULL,'Users','ezstring',8,'eng-GB',3,0,'',1),
@@ -119,7 +119,7 @@ VALUES (0,4,1,NULL,NULL,'Exponential Platform','ezstring',1,'eng-GB',3,0,'ibexa 
        (0,119,41,0,1045487555,'<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<section xmlns=\"http://docbook.org/ns/docbook\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:ezxhtml=\"http://ez.no/xmlns/ezpublish/docbook/xhtml\" xmlns:ezcustom=\"http://ez.no/xmlns/ezpublish/docbook/custom\" version=\"5.0-variant ezpublish-1.0\"/>\n','ezrichtext',99,'eng-GB',3,0,'',1),
        (0,6,42,0,0,'Anonymous Users','ezstring',100,'eng-GB',3,0,'anonymous users',1),
        (0,7,42,0,0,'User group for the anonymous user','ezstring',101,'eng-GB',3,0,'user group for the anonymous user',1),
-       (0,155,1,NULL,NULL,'Exponential Platform','ezstring',102,'eng-GB',3,0,'ibexa platform',9),
+       (0,155,1,NULL,NULL,'Exponential Platform','ezstring',102,'eng-GB',3,0,'exponential platform',9),
        (0,155,41,0,0,'','ezstring',103,'eng-GB',3,0,'',1),
        (0,156,1,NULL,NULL,'<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ez.no/xmlns/ezpublish/docbook/xhtml" xmlns:ezcustom="http://ez.no/xmlns/ezpublish/docbook/custom" version="5.0-variant ezpublish-1.0"><para>This is the clean installation coming with Exponential Platform.</para><para>It''s a bare-bones setup of the Platform, an excellent foundation to build upon if you want to start your project from scratch.</para></section>','ezrichtext',104,'eng-GB',3,0,'',9),
        (0,156,41,0,1045487555,'<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<section xmlns=\"http://docbook.org/ns/docbook\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:ezxhtml=\"http://ez.no/xmlns/ezpublish/docbook/xhtml\" xmlns:ezcustom=\"http://ez.no/xmlns/ezpublish/docbook/custom\" version=\"5.0-variant ezpublish-1.0\"/>\n','ezrichtext',105,'eng-GB',3,0,'',1),
