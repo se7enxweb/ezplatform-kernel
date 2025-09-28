@@ -4,20 +4,20 @@ core:
     suites:
         console:
             paths:
-                - vendor/ezsystems/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/Console
+                - vendor/se7enxweb/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/Console
             contexts:
                 - eZ\Bundle\EzPublishCoreBundle\Features\Context\ConsoleContext
         web:
             paths:
-                - vendor/ezsystems/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/Content
-                - vendor/ezsystems/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/Exception
+                - vendor/se7enxweb/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/Content
+                - vendor/se7enxweb/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/Exception
             contexts:
                 - eZ\Bundle\EzPublishCoreBundle\Features\Context\ContentPreviewContext
                 - eZ\Bundle\EzPublishCoreBundle\Features\Context\ContentContext
                 - eZ\Bundle\EzPublishCoreBundle\Features\Context\ExceptionContext
         query_controller:
             paths:
-                - vendor/ezsystems/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/QueryController/query_controller.feature
+                - vendor/se7enxweb/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/QueryController/query_controller.feature
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - eZ\Bundle\EzPublishCoreBundle\Features\Context\QueryControllerContext
@@ -25,7 +25,7 @@ core:
                 - EzSystems\Behat\API\Context\TestContext
         setup:
             paths:
-                - vendor/ezsystems/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/QueryController/setup.feature
+                - vendor/se7enxweb/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/Features/QueryController/setup.feature
             contexts:
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\TestContext
