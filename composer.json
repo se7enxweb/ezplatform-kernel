@@ -7,7 +7,7 @@
         "php-64bit": "For support of more than 30 languages, a 64bit php installation on all involved prod/dev machines is required"
     },
     "require": {
-        "php": "^7.3 || ^8.0 || ^8.1 || ^8.2 || ^8.3 || ^8.4",
+        "php": "^7.3 || ^8.0 || ^8.1 || ^8.2 || ^8.3 || ^8.4 || ^8.5",
         "ext-ctype": "*",
         "ext-fileinfo": "*",
         "ext-intl": "*",
@@ -81,7 +81,9 @@
         "phpunit/phpunit": "8.4.0"
     },
     "replace": {
-        "ezsystems/ezpublish-kernel": "*"
+        "ezsystems/ezpublish-kernel": "*",
+        "ezsystems/ezplatform-kernel": "*",
+        "ibexa/core": "*"
     },
     "autoload": {
         "psr-4": {
