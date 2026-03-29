@@ -299,3 +299,818 @@ VALUES (11,28,'','',1),
 INSERT INTO `ezuser_setting` (`is_enabled`, `max_login`, `user_id`)
 VALUES (1,1000,10),
        (1,10,14);
+
+-- ================================================
+-- Legacy eZ Publish schema (ezplatform:install ibexa-oss compatibility)
+-- ================================================
+
+CREATE TABLE IF NOT EXISTS `ezapprove_items` (
+  `collaboration_id` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `workflow_process_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezbasket` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int NOT NULL DEFAULT '0',
+  `productcollection_id` int NOT NULL DEFAULT '0',
+  `session_id` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `ezbasket_session_id` (`session_id`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_group` (
+  `created` int NOT NULL DEFAULT '0',
+  `depth` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `is_open` int NOT NULL DEFAULT '1',
+  `modified` int NOT NULL DEFAULT '0',
+  `parent_group_id` int NOT NULL DEFAULT '0',
+  `path_string` varchar(255) NOT NULL DEFAULT '',
+  `priority` int NOT NULL DEFAULT '0',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezcollab_group_depth` (`depth`),
+  KEY `ezcollab_group_path` (`path_string`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_item` (
+  `created` int NOT NULL DEFAULT '0',
+  `creator_id` int NOT NULL DEFAULT '0',
+  `data_float1` float NOT NULL DEFAULT '0',
+  `data_float2` float NOT NULL DEFAULT '0',
+  `data_float3` float NOT NULL DEFAULT '0',
+  `data_int1` int NOT NULL DEFAULT '0',
+  `data_int2` int NOT NULL DEFAULT '0',
+  `data_int3` int NOT NULL DEFAULT '0',
+  `data_text1` longtext NOT NULL,
+  `data_text2` longtext NOT NULL,
+  `data_text3` longtext NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `modified` int NOT NULL DEFAULT '0',
+  `status` int NOT NULL DEFAULT '1',
+  `type_identifier` varchar(40) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_item_group_link` (
+  `collaboration_id` int NOT NULL DEFAULT '0',
+  `created` int NOT NULL DEFAULT '0',
+  `group_id` int NOT NULL DEFAULT '0',
+  `is_active` int NOT NULL DEFAULT '1',
+  `is_read` int NOT NULL DEFAULT '0',
+  `last_read` int NOT NULL DEFAULT '0',
+  `modified` int NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`collaboration_id`,`group_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_item_message_link` (
+  `collaboration_id` int NOT NULL DEFAULT '0',
+  `created` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `message_id` int NOT NULL DEFAULT '0',
+  `message_type` int NOT NULL DEFAULT '0',
+  `modified` int NOT NULL DEFAULT '0',
+  `participant_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_item_participant_link` (
+  `collaboration_id` int NOT NULL DEFAULT '0',
+  `created` int NOT NULL DEFAULT '0',
+  `is_active` int NOT NULL DEFAULT '1',
+  `is_read` int NOT NULL DEFAULT '0',
+  `last_read` int NOT NULL DEFAULT '0',
+  `modified` int NOT NULL DEFAULT '0',
+  `participant_id` int NOT NULL DEFAULT '0',
+  `participant_role` int NOT NULL DEFAULT '1',
+  `participant_type` int NOT NULL DEFAULT '1',
+  PRIMARY KEY (`collaboration_id`,`participant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_item_status` (
+  `collaboration_id` int NOT NULL DEFAULT '0',
+  `is_active` int NOT NULL DEFAULT '1',
+  `is_read` int NOT NULL DEFAULT '0',
+  `last_read` int NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`collaboration_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_notification_rule` (
+  `collab_identifier` varchar(255) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_profile` (
+  `created` int NOT NULL DEFAULT '0',
+  `data_text1` longtext NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `main_group` int NOT NULL DEFAULT '0',
+  `modified` int NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcollab_simple_message` (
+  `created` int NOT NULL DEFAULT '0',
+  `creator_id` int NOT NULL DEFAULT '0',
+  `data_float1` float NOT NULL DEFAULT '0',
+  `data_float2` float NOT NULL DEFAULT '0',
+  `data_float3` float NOT NULL DEFAULT '0',
+  `data_int1` int NOT NULL DEFAULT '0',
+  `data_int2` int NOT NULL DEFAULT '0',
+  `data_int3` int NOT NULL DEFAULT '0',
+  `data_text1` longtext NOT NULL,
+  `data_text2` longtext NOT NULL,
+  `data_text3` longtext NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `message_type` varchar(40) NOT NULL DEFAULT '',
+  `modified` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcontentbrowserecent` (
+  `created` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `node_id` int NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezcontentbrowserecent_user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezcurrencydata` (
+  `auto_rate_value` decimal(10,5) NOT NULL DEFAULT '0.00000',
+  `code` varchar(4) NOT NULL DEFAULT '',
+  `custom_rate_value` decimal(10,5) NOT NULL DEFAULT '0.00000',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `locale` varchar(255) NOT NULL DEFAULT '',
+  `rate_factor` decimal(10,5) NOT NULL DEFAULT '1.00000',
+  `status` int NOT NULL DEFAULT '1',
+  `symbol` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `ezcurrencydata_code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezdiscountrule` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezdiscountsubrule` (
+  `discount_percent` float DEFAULT NULL,
+  `discountrule_id` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `limitation` char(1) DEFAULT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezdiscountsubrule_value` (
+  `discountsubrule_id` int NOT NULL DEFAULT '0',
+  `issection` int NOT NULL DEFAULT '0',
+  `value` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`discountsubrule_id`,`value`,`issection`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezenumobjectvalue` (
+  `contentobject_attribute_id` int NOT NULL DEFAULT '0',
+  `contentobject_attribute_version` int NOT NULL DEFAULT '0',
+  `enumelement` varchar(255) NOT NULL DEFAULT '',
+  `enumid` int NOT NULL DEFAULT '0',
+  `enumvalue` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`contentobject_attribute_id`,`contentobject_attribute_version`,`enumid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezenumvalue` (
+  `contentclass_attribute_id` int NOT NULL DEFAULT '0',
+  `contentclass_attribute_version` int NOT NULL DEFAULT '0',
+  `enumelement` varchar(255) NOT NULL DEFAULT '',
+  `enumvalue` varchar(255) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `placement` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`,`contentclass_attribute_id`,`contentclass_attribute_version`),
+  KEY `ezenumvalue_co_cl_attr_id_co_class_att_ver` (`contentclass_attribute_id`,`contentclass_attribute_version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezforgot_password` (
+  `hash_key` varchar(32) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `time` int NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezforgot_password_user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezgeneral_digest_user_settings` (
+  `day` varchar(255) NOT NULL DEFAULT '',
+  `digest_type` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `receive_digest` int NOT NULL DEFAULT '0',
+  `time` varchar(255) NOT NULL DEFAULT '',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ezgeneral_digest_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezisbn_group` (
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `group_number` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezisbn_group_range` (
+  `from_number` int NOT NULL DEFAULT '0',
+  `group_from` varchar(32) NOT NULL DEFAULT '',
+  `group_length` int NOT NULL DEFAULT '0',
+  `group_to` varchar(32) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `to_number` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezisbn_registrant_range` (
+  `from_number` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `isbn_group_id` int NOT NULL DEFAULT '0',
+  `registrant_from` varchar(32) NOT NULL DEFAULT '',
+  `registrant_length` int NOT NULL DEFAULT '0',
+  `registrant_to` varchar(32) NOT NULL DEFAULT '',
+  `to_number` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezmessage` (
+  `body` longtext,
+  `destination_address` varchar(50) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `is_sent` int NOT NULL DEFAULT '0',
+  `send_method` varchar(50) NOT NULL DEFAULT '',
+  `send_time` varchar(50) NOT NULL DEFAULT '',
+  `send_weekday` varchar(50) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezmodule_run` (
+  `function_name` varchar(255) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `module_data` longtext,
+  `module_name` varchar(255) DEFAULT NULL,
+  `workflow_process_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ezmodule_run_workflow_process_id_s` (`workflow_process_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezmultipricedata` (
+  `contentobject_attr_id` int NOT NULL DEFAULT '0',
+  `contentobject_attr_version` int NOT NULL DEFAULT '0',
+  `currency_code` varchar(4) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type` int NOT NULL DEFAULT '0',
+  `value` decimal(15,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `ezmultipricedata_coa_id` (`contentobject_attr_id`),
+  KEY `ezmultipricedata_coa_version` (`contentobject_attr_version`),
+  KEY `ezmultipricedata_currency_code` (`currency_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `eznotificationcollection` (
+  `data_subject` longtext NOT NULL,
+  `data_text` longtext NOT NULL,
+  `event_id` int NOT NULL DEFAULT '0',
+  `handler` varchar(255) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `transport` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `eznotificationcollection_item` (
+  `address` varchar(255) NOT NULL DEFAULT '',
+  `collection_id` int NOT NULL DEFAULT '0',
+  `event_id` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `send_date` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `eznotificationevent` (
+  `data_int1` int NOT NULL DEFAULT '0',
+  `data_int2` int NOT NULL DEFAULT '0',
+  `data_int3` int NOT NULL DEFAULT '0',
+  `data_int4` int NOT NULL DEFAULT '0',
+  `data_text1` longtext NOT NULL,
+  `data_text2` longtext NOT NULL,
+  `data_text3` longtext NOT NULL,
+  `data_text4` longtext NOT NULL,
+  `event_type_string` varchar(255) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `status` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezoperation_memento` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `main` int NOT NULL DEFAULT '0',
+  `main_key` varchar(32) NOT NULL DEFAULT '',
+  `memento_data` longtext NOT NULL,
+  `memento_key` varchar(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`,`memento_key`),
+  KEY `ezoperation_memento_memento_key_main` (`memento_key`,`main`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezorder` (
+  `account_identifier` varchar(100) NOT NULL DEFAULT 'default',
+  `created` int NOT NULL DEFAULT '0',
+  `data_text_1` longtext,
+  `data_text_2` longtext,
+  `email` varchar(150) DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `ignore_vat` int NOT NULL DEFAULT '0',
+  `is_archived` int NOT NULL DEFAULT '0',
+  `is_temporary` int NOT NULL DEFAULT '1',
+  `order_nr` int NOT NULL DEFAULT '0',
+  `productcollection_id` int NOT NULL DEFAULT '0',
+  `status_id` int DEFAULT '0',
+  `status_modified` int DEFAULT '0',
+  `status_modifier_id` int DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezorder_is_archived` (`is_archived`),
+  KEY `ezorder_is_tmp` (`is_temporary`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezorder_item` (
+  `description` varchar(255) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `is_vat_inc` int NOT NULL DEFAULT '0',
+  `order_id` int NOT NULL DEFAULT '0',
+  `price` float DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `vat_value` float NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezorder_item_order_id` (`order_id`),
+  KEY `ezorder_item_type` (`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezorder_nr_incr` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezorder_status` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `is_active` int NOT NULL DEFAULT '1',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `status_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezorder_status_active` (`is_active`),
+  KEY `ezorder_status_name` (`name`(191)),
+  KEY `ezorder_status_sid` (`status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezorder_status_history` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `modified` int NOT NULL DEFAULT '0',
+  `modifier_id` int NOT NULL DEFAULT '0',
+  `order_id` int NOT NULL DEFAULT '0',
+  `status_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezorder_status_history_mod` (`modified`),
+  KEY `ezorder_status_history_oid` (`order_id`),
+  KEY `ezorder_status_history_sid` (`status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezpaymentobject` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int NOT NULL DEFAULT '0',
+  `payment_string` varchar(255) NOT NULL DEFAULT '',
+  `status` int NOT NULL DEFAULT '0',
+  `workflowprocess_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezpdf_export` (
+  `created` int DEFAULT NULL,
+  `creator_id` int DEFAULT NULL,
+  `export_classes` varchar(255) DEFAULT NULL,
+  `export_structure` varchar(255) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `intro_text` longtext,
+  `modified` int DEFAULT NULL,
+  `modifier_id` int DEFAULT NULL,
+  `pdf_filename` varchar(255) DEFAULT NULL,
+  `show_frontpage` int DEFAULT NULL,
+  `site_access` varchar(255) DEFAULT NULL,
+  `source_node_id` int DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `sub_text` longtext,
+  `title` varchar(255) DEFAULT NULL,
+  `version` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`,`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezpending_actions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `action` varchar(64) NOT NULL DEFAULT '',
+  `created` int DEFAULT NULL,
+  `param` longtext,
+  PRIMARY KEY (`id`),
+  KEY `ezpending_actions_action` (`action`),
+  KEY `ezpending_actions_created` (`created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezprest_authcode` (
+  `client_id` varchar(200) NOT NULL DEFAULT '',
+  `expirytime` bigint NOT NULL DEFAULT '0',
+  `id` varchar(200) NOT NULL DEFAULT '',
+  `scope` varchar(200) DEFAULT NULL,
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`(191)),
+  KEY `authcode_client_id` (`client_id`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezprest_authorized_clients` (
+  `created` int DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `rest_client_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `client_user` (`rest_client_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezprest_clients` (
+  `client_id` varchar(200) DEFAULT NULL,
+  `client_secret` varchar(200) DEFAULT NULL,
+  `created` int NOT NULL DEFAULT '0',
+  `description` longtext,
+  `endpoint_uri` varchar(200) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `owner_id` int NOT NULL DEFAULT '0',
+  `updated` int NOT NULL DEFAULT '0',
+  `version` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `client_id_unique` (`client_id`(191),`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezprest_token` (
+  `client_id` varchar(200) NOT NULL DEFAULT '',
+  `expirytime` bigint NOT NULL DEFAULT '0',
+  `id` varchar(200) NOT NULL DEFAULT '',
+  `refresh_token` varchar(200) NOT NULL DEFAULT '',
+  `scope` varchar(200) DEFAULT NULL,
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`(191)),
+  KEY `token_client_id` (`client_id`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezproductcategory` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezproductcollection` (
+  `created` int DEFAULT NULL,
+  `currency_code` varchar(4) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezproductcollection_item` (
+  `contentobject_id` int NOT NULL DEFAULT '0',
+  `discount` float DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `is_vat_inc` int DEFAULT NULL,
+  `item_count` int NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `price` float DEFAULT '0',
+  `productcollection_id` int NOT NULL DEFAULT '0',
+  `vat_value` float DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ezproductcollection_item_contentobject_id` (`contentobject_id`),
+  KEY `ezproductcollection_item_productcollection_id` (`productcollection_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezproductcollection_item_opt` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `item_id` int NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `object_attribute_id` int DEFAULT NULL,
+  `option_item_id` int NOT NULL DEFAULT '0',
+  `price` float NOT NULL DEFAULT '0',
+  `value` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `ezproductcollection_item_opt_item_id` (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezpublishingqueueprocesses` (
+  `created` int DEFAULT NULL,
+  `ezcontentobject_version_id` int NOT NULL DEFAULT '0',
+  `finished` int DEFAULT NULL,
+  `pid` int DEFAULT NULL,
+  `started` int DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`ezcontentobject_version_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezrss_export` (
+  `access_url` varchar(255) DEFAULT NULL,
+  `active` int DEFAULT NULL,
+  `created` int DEFAULT NULL,
+  `creator_id` int DEFAULT NULL,
+  `description` longtext,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `image_id` int DEFAULT NULL,
+  `main_node_only` int NOT NULL DEFAULT '1',
+  `modified` int DEFAULT NULL,
+  `modifier_id` int DEFAULT NULL,
+  `node_id` int DEFAULT NULL,
+  `number_of_objects` int NOT NULL DEFAULT '0',
+  `rss_version` varchar(255) DEFAULT NULL,
+  `site_access` varchar(255) DEFAULT NULL,
+  `status` int NOT NULL DEFAULT '0',
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezrss_export_item` (
+  `category` varchar(255) DEFAULT NULL,
+  `class_id` int DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `enclosure` varchar(255) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `rssexport_id` int DEFAULT NULL,
+  `source_node_id` int DEFAULT NULL,
+  `status` int NOT NULL DEFAULT '0',
+  `subnodes` int NOT NULL DEFAULT '0',
+  `title` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`,`status`),
+  KEY `ezrss_export_rsseid` (`rssexport_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezrss_import` (
+  `active` int DEFAULT NULL,
+  `class_description` varchar(255) DEFAULT NULL,
+  `class_id` int DEFAULT NULL,
+  `class_title` varchar(255) DEFAULT NULL,
+  `class_url` varchar(255) DEFAULT NULL,
+  `created` int DEFAULT NULL,
+  `creator_id` int DEFAULT NULL,
+  `destination_node_id` int DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `import_description` longtext NOT NULL,
+  `modified` int DEFAULT NULL,
+  `modifier_id` int DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `object_owner_id` int DEFAULT NULL,
+  `status` int NOT NULL DEFAULT '0',
+  `url` longtext,
+  PRIMARY KEY (`id`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezscheduled_script` (
+  `command` varchar(255) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `last_report_timestamp` int NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `process_id` int NOT NULL DEFAULT '0',
+  `progress` int DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezscheduled_script_timestamp` (`last_report_timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezsearch_search_phrase` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `phrase` varchar(250) DEFAULT NULL,
+  `phrase_count` int DEFAULT '0',
+  `result_count` int DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ezsearch_search_phrase_phrase` (`phrase`(191)),
+  KEY `ezsearch_search_phrase_count` (`phrase_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezsession` (
+  `data` longtext NOT NULL,
+  `expiration_time` int NOT NULL DEFAULT '0',
+  `session_key` varchar(32) NOT NULL DEFAULT '',
+  `user_hash` varchar(32) NOT NULL DEFAULT '',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`session_key`),
+  KEY `expiration_time` (`expiration_time`),
+  KEY `ezsession_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezstarrating` (
+  `contentobject_id` int NOT NULL,
+  `contentobject_attribute_id` int NOT NULL,
+  `rating_average` float NOT NULL,
+  `rating_count` int NOT NULL,
+  PRIMARY KEY (`contentobject_id`,`contentobject_attribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezstarrating_data` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_at` int NOT NULL,
+  `user_id` int NOT NULL,
+  `session_key` varchar(32) NOT NULL,
+  `rating` float NOT NULL,
+  `contentobject_id` int NOT NULL,
+  `contentobject_attribute_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_session_key` (`user_id`,`session_key`),
+  KEY `contentobject_id_contentobject_attribute_id` (`contentobject_id`,`contentobject_attribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezsubtree_notification_rule` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `node_id` int NOT NULL DEFAULT '0',
+  `use_digest` int DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezsubtree_notification_rule_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `eztipafriend_counter` (
+  `count` int NOT NULL DEFAULT '0',
+  `node_id` int NOT NULL DEFAULT '0',
+  `requested` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`node_id`,`requested`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `eztipafriend_request` (
+  `created` int NOT NULL DEFAULT '0',
+  `email_receiver` varchar(100) NOT NULL DEFAULT '',
+  KEY `eztipafriend_request_created` (`created`),
+  KEY `eztipafriend_request_email_rec` (`email_receiver`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `eztrigger` (
+  `connect_type` char(1) NOT NULL DEFAULT '',
+  `function_name` varchar(200) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `module_name` varchar(200) NOT NULL DEFAULT '',
+  `name` varchar(255) DEFAULT NULL,
+  `workflow_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `eztrigger_def_id` (`module_name`(50),`function_name`(50),`connect_type`),
+  KEY `eztrigger_fetch` (`name`(25),`module_name`(50),`function_name`(50))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezuser_discountrule` (
+  `contentobject_id` int DEFAULT NULL,
+  `discountrule_id` int DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezuservisit` (
+  `current_visit_timestamp` int NOT NULL DEFAULT '0',
+  `failed_login_attempts` int NOT NULL DEFAULT '0',
+  `last_visit_timestamp` int NOT NULL DEFAULT '0',
+  `login_count` int NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`),
+  KEY `ezuservisit_co_visit_count` (`current_visit_timestamp`,`login_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezvatrule` (
+  `country_code` varchar(255) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `vat_type` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezvatrule_product_category` (
+  `product_category_id` int NOT NULL DEFAULT '0',
+  `vatrule_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`vatrule_id`,`product_category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezvattype` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `percentage` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezview_counter` (
+  `count` int NOT NULL DEFAULT '0',
+  `node_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`node_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezwaituntildatevalue` (
+  `contentclass_attribute_id` int NOT NULL DEFAULT '0',
+  `contentclass_id` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `workflow_event_id` int NOT NULL DEFAULT '0',
+  `workflow_event_version` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`,`workflow_event_id`,`workflow_event_version`),
+  KEY `ezwaituntildateevalue_wf_ev_id_wf_ver` (`workflow_event_id`,`workflow_event_version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezwishlist` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `productcollection_id` int NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezworkflow` (
+  `created` int NOT NULL DEFAULT '0',
+  `creator_id` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `is_enabled` int NOT NULL DEFAULT '0',
+  `modified` int NOT NULL DEFAULT '0',
+  `modifier_id` int NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `version` int NOT NULL DEFAULT '0',
+  `workflow_type_string` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`,`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezworkflow_assign` (
+  `access_type` int NOT NULL DEFAULT '0',
+  `as_tree` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `node_id` int NOT NULL DEFAULT '0',
+  `workflow_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezworkflow_event` (
+  `data_int1` int DEFAULT NULL,
+  `data_int2` int DEFAULT NULL,
+  `data_int3` int DEFAULT NULL,
+  `data_int4` int DEFAULT NULL,
+  `data_text1` varchar(255) DEFAULT NULL,
+  `data_text2` varchar(255) DEFAULT NULL,
+  `data_text3` varchar(255) DEFAULT NULL,
+  `data_text4` varchar(255) DEFAULT NULL,
+  `data_text5` longtext,
+  `description` varchar(50) NOT NULL DEFAULT '',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `placement` int NOT NULL DEFAULT '0',
+  `version` int NOT NULL DEFAULT '0',
+  `workflow_id` int NOT NULL DEFAULT '0',
+  `workflow_type_string` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`,`version`),
+  KEY `wid_version_placement` (`workflow_id`,`version`,`placement`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezworkflow_group` (
+  `created` int NOT NULL DEFAULT '0',
+  `creator_id` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `modified` int NOT NULL DEFAULT '0',
+  `modifier_id` int NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezworkflow_group_link` (
+  `group_id` int NOT NULL DEFAULT '0',
+  `group_name` varchar(255) DEFAULT NULL,
+  `workflow_id` int NOT NULL DEFAULT '0',
+  `workflow_version` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`workflow_id`,`group_id`,`workflow_version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `ezworkflow_process` (
+  `activation_date` int DEFAULT NULL,
+  `content_id` int NOT NULL DEFAULT '0',
+  `content_version` int NOT NULL DEFAULT '0',
+  `created` int NOT NULL DEFAULT '0',
+  `event_id` int NOT NULL DEFAULT '0',
+  `event_position` int NOT NULL DEFAULT '0',
+  `event_state` int DEFAULT NULL,
+  `event_status` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `last_event_id` int NOT NULL DEFAULT '0',
+  `last_event_position` int NOT NULL DEFAULT '0',
+  `last_event_status` int NOT NULL DEFAULT '0',
+  `memento_key` varchar(32) DEFAULT NULL,
+  `modified` int NOT NULL DEFAULT '0',
+  `node_id` int NOT NULL DEFAULT '0',
+  `parameters` longtext,
+  `process_key` varchar(32) NOT NULL DEFAULT '',
+  `session_key` varchar(32) NOT NULL DEFAULT '0',
+  `status` int DEFAULT NULL,
+  `user_id` int NOT NULL DEFAULT '0',
+  `workflow_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `ezworkflow_process_process_key` (`process_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
