@@ -244,7 +244,7 @@ tables:
             sort_key_int: { fields: [sort_key_int] }
             ezcontentobject_attribute_co_id_ver: { fields: [contentobject_id, version] }
         id:
-            id: { type: integer, nullable: false, options: { autoincrement: true } }
+            id: { type: integer, nullable: false, options: { default: '0' } }
             version: { type: integer, nullable: false, options: { default: '0' } }
         fields:
             attribute_original_id: { type: integer, nullable: true, options: { default: '0' } }
