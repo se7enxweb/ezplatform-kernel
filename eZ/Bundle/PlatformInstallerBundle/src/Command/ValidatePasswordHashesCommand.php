@@ -33,7 +33,7 @@ final class ValidatePasswordHashesCommand extends Command implements BackwardCom
 
     protected function configure()
     {
-        $this->setName('ibexa:user:validate-password-hashes');
+        $this->setName('exponential:user:validate-password-hashes');
         $this->setAliases($this->getDeprecatedAliases());
     }
 
@@ -55,6 +55,6 @@ final class ValidatePasswordHashesCommand extends Command implements BackwardCom
 
     public function getDeprecatedAliases(): array
     {
-        return ['ezplatform:user:validate-password-hashes'];
+        return ['ibexa:user:validate-password-hashes', 'ezplatform:user:validate-password-hashes'];
     }
 }

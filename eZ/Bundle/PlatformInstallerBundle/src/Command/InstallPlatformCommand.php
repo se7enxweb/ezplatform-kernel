@@ -61,7 +61,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
 
     protected function configure()
     {
-        $this->setName('ibexa:install');
+        $this->setName('exponential:install');
         $this->setAliases($this->getDeprecatedAliases());
         $this->addArgument(
             'type',
@@ -267,6 +267,6 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
 
     public function getDeprecatedAliases(): array
     {
-        return ['ezplatform:install'];
+        return ['ibexa:install', 'ezplatform:install'];
     }
 }
