@@ -131,6 +131,21 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
 
     private function checkCreateDatabase(OutputInterface $output)
     {
+        // SQLite creates the database file automatically on first connection; running
+        // doctrine:database:create --if-not-exists against SQLite throws a DBALException
+        // ("getListDatabasesSQL is not supported") because SQLite has no concept of
+        // server-side databases.  Skip the sub-command entirely for SQLite.
+        if ($this->connection->getDatabasePlatform()->getName() === 'sqlite') {
+            $output->writeln(
+                sprintf(
+                    'SQLite: database file <comment>%s</comment> will be created automatically on first connection.',
+                    $this->connection->getDatabase()
+                )
+            );
+
+            return;
+        }
+
         $output->writeln(
             sprintf(
                 'Creating database <comment>%s</comment> if it does not exist, using doctrine:database:create --if-not-exists',
