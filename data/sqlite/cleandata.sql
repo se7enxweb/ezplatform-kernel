@@ -10,9 +10,105 @@
 --   - UNSIGNED removed
 --   - CHARACTER SET/COLLATE column options removed
 -- ================================================
+-- SQLite composite-PK fixup
+-- -----------------------------------------------
+-- Doctrine generates ezcontentclass, ezcontentclass_attribute and
+-- ezcontentobject_attribute with a single-column AUTOINCREMENT primary key
+-- because it cannot express a composite PK with autoincrement on SQLite.
+-- The canonical schema.yaml defines these tables with PRIMARY KEY (id, version)
+-- so they can hold the same attribute/class id across multiple versions.
+-- We DROP and recreate them here (SQLite-only, MySQL/PostgreSQL are unaffected)
+-- before inserting any data.
+-- ================================================
 
 PRAGMA journal_mode=WAL;
 PRAGMA foreign_keys=OFF;
+
+-- ── ezcontentclass ──────────────────────────────────────────────────────────
+DROP TABLE IF EXISTS ezcontentclass;
+CREATE TABLE ezcontentclass (
+    id INTEGER NOT NULL,
+    version INTEGER DEFAULT 0 NOT NULL,
+    always_available INTEGER DEFAULT 0 NOT NULL,
+    contentobject_name VARCHAR(255) DEFAULT NULL,
+    created INTEGER DEFAULT 0 NOT NULL,
+    creator_id INTEGER DEFAULT 0 NOT NULL,
+    identifier VARCHAR(50) DEFAULT '' NOT NULL,
+    initial_language_id BIGINT DEFAULT 0 NOT NULL,
+    is_container INTEGER DEFAULT 0 NOT NULL,
+    language_mask BIGINT DEFAULT 0 NOT NULL,
+    modified INTEGER DEFAULT 0 NOT NULL,
+    modifier_id INTEGER DEFAULT 0 NOT NULL,
+    remote_id VARCHAR(100) DEFAULT '' NOT NULL,
+    serialized_description_list CLOB DEFAULT NULL,
+    serialized_name_list CLOB DEFAULT NULL,
+    sort_field INTEGER DEFAULT 1 NOT NULL,
+    sort_order INTEGER DEFAULT 1 NOT NULL,
+    url_alias_name VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (id, version)
+);
+CREATE INDEX ezcontentclass_version ON ezcontentclass (version);
+CREATE INDEX ezcontentclass_identifier ON ezcontentclass (identifier, version);
+
+-- ── ezcontentclass_attribute ─────────────────────────────────────────────────
+DROP TABLE IF EXISTS ezcontentclass_attribute;
+CREATE TABLE ezcontentclass_attribute (
+    id INTEGER NOT NULL,
+    version INTEGER DEFAULT 0 NOT NULL,
+    can_translate INTEGER DEFAULT 1,
+    category VARCHAR(25) DEFAULT '' NOT NULL,
+    contentclass_id INTEGER DEFAULT 0 NOT NULL,
+    data_float1 DOUBLE PRECISION DEFAULT NULL,
+    data_float2 DOUBLE PRECISION DEFAULT NULL,
+    data_float3 DOUBLE PRECISION DEFAULT NULL,
+    data_float4 DOUBLE PRECISION DEFAULT NULL,
+    data_int1 INTEGER DEFAULT NULL,
+    data_int2 INTEGER DEFAULT NULL,
+    data_int3 INTEGER DEFAULT NULL,
+    data_int4 INTEGER DEFAULT NULL,
+    data_text1 VARCHAR(255) DEFAULT NULL,
+    data_text2 VARCHAR(50) DEFAULT NULL,
+    data_text3 VARCHAR(50) DEFAULT NULL,
+    data_text4 VARCHAR(255) DEFAULT NULL,
+    data_text5 CLOB DEFAULT NULL,
+    data_type_string VARCHAR(50) DEFAULT '' NOT NULL,
+    identifier VARCHAR(50) DEFAULT '' NOT NULL,
+    is_information_collector INTEGER DEFAULT 0 NOT NULL,
+    is_required INTEGER DEFAULT 0 NOT NULL,
+    is_searchable INTEGER DEFAULT 0 NOT NULL,
+    is_thumbnail BOOLEAN DEFAULT '0' NOT NULL,
+    placement INTEGER DEFAULT 0 NOT NULL,
+    serialized_data_text CLOB DEFAULT NULL,
+    serialized_description_list CLOB DEFAULT NULL,
+    serialized_name_list CLOB NOT NULL,
+    PRIMARY KEY (id, version)
+);
+CREATE INDEX ezcontentclass_attr_ccid ON ezcontentclass_attribute (contentclass_id);
+
+-- ── ezcontentobject_attribute ────────────────────────────────────────────────
+DROP TABLE IF EXISTS ezcontentobject_attribute;
+CREATE TABLE ezcontentobject_attribute (
+    id INTEGER NOT NULL,
+    version INTEGER DEFAULT 0 NOT NULL,
+    attribute_original_id INTEGER DEFAULT 0,
+    contentclassattribute_id INTEGER DEFAULT 0 NOT NULL,
+    contentobject_id INTEGER DEFAULT 0 NOT NULL,
+    data_float DOUBLE PRECISION DEFAULT NULL,
+    data_int INTEGER DEFAULT NULL,
+    data_text CLOB DEFAULT NULL,
+    data_type_string VARCHAR(50) DEFAULT '',
+    language_code VARCHAR(20) DEFAULT '' NOT NULL,
+    language_id BIGINT DEFAULT 0 NOT NULL,
+    sort_key_int INTEGER DEFAULT 0 NOT NULL,
+    sort_key_string VARCHAR(255) DEFAULT '' NOT NULL,
+    PRIMARY KEY (id, version)
+);
+CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute (contentobject_id, version, language_code);
+CREATE INDEX ezcontentobject_classattr_id ON ezcontentobject_attribute (contentclassattribute_id);
+CREATE INDEX sort_key_string ON ezcontentobject_attribute (sort_key_string);
+CREATE INDEX ezcontentobject_attribute_language_code ON ezcontentobject_attribute (language_code);
+CREATE INDEX sort_key_int ON ezcontentobject_attribute (sort_key_int);
+CREATE INDEX ezcontentobject_attribute_co_id_ver ON ezcontentobject_attribute (contentobject_id, version);
 
 INSERT INTO `ezcobj_state` (`default_language_id`, `group_id`, `id`, `identifier`, `language_mask`, `priority`)
 VALUES (2, 2, 1, 'not_locked', 3, 0),
