@@ -78,12 +78,12 @@
         "symfony/security-core": "5.3.0",
         "doctrine/dbal": "2.7.0",
         "ezsystems/ezpublish-legacy": "*",
+        "ezsystems/ezpublish-kernel": "*",
+        "ibexa/core": "*",
         "phpunit/phpunit": "8.4.0"
     },
     "replace": {
-        "ezsystems/ezpublish-kernel": "*",
-        "ezsystems/ezplatform-kernel": "*",
-        "ibexa/core": "*"
+        "ezsystems/ezplatform-kernel": "self.version"
     },
     "autoload": {
         "psr-4": {
